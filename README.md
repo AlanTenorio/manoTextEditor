@@ -1,8 +1,8 @@
-# 📝 MiniNano
+# "Mano" o MiniNano
 
 MiniNano é um editor de texto desenvolvido em **Python** com **Tkinter**, inspirado no GNU Nano. O projeto foi criado para aplicar conceitos de **Estruturas de Dados**, utilizando listas duplamente encadeadas e pilhas em uma aplicação com interface gráfica.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 * Interface inspirada no GNU Nano
 * Edição de texto em tempo real
@@ -12,7 +12,7 @@ MiniNano é um editor de texto desenvolvido em **Python** com **Tkinter**, inspi
 * Atalhos de teclado
 * Arquitetura modular
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```text
 MiniNano/
@@ -23,7 +23,7 @@ MiniNano/
 └── README.md
 ```
 
-## 🧠 Estruturas de Dados
+## Estruturas de Dados
 
 ### Lista Duplamente Encadeada
 
@@ -33,7 +33,7 @@ Utilizada para armazenar e manipular o conteúdo textual de forma dinâmica.
 
 Responsáveis pelo histórico de ações, implementando as operações de **Undo** e **Redo**.
 
-## ⌨️ Atalhos
+## Atalhos
 
 | Atalho   | Função        |
 | -------- | ------------- |
@@ -44,7 +44,7 @@ Responsáveis pelo histórico de ações, implementando as operações de **Undo
 | Ctrl + Y | Refazer       |
 | Ctrl + Q | Sair          |
 
-## 🚀 Execução
+## Execução
 
 ```bash
 git clone https://github.com/seu-usuario/MiniNano.git
@@ -52,17 +52,17 @@ cd MiniNano
 python main.py
 ```
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 * Python
 * Tkinter
 * Programação Orientada a Objetos
 * Estruturas de Dados
 
-## 📚 Objetivo
+## Objetivo
 
 Demonstrar a aplicação prática de conceitos de Estruturas de Dados em uma aplicação real, integrando interface gráfica, manipulação de arquivos e gerenciamento de histórico de alterações.
 
-## 👨‍💻 Autor
+## Autor
 
 Projeto desenvolvido para a disciplina de **Estruturas de Dados**.
