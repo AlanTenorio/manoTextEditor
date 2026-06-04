@@ -94,7 +94,8 @@ class MiniNanoGUI:
         )
 
 
-        # BARRAS INFERIORES
+       # BARRA INFERIOR ESTILO NANO
+
         bottom_frame = tk.Frame(
             root,
             bg="#d8d8d0"
@@ -106,22 +107,18 @@ class MiniNanoGUI:
         )
 
         linha1 = [
-            "^G Help",
             "^O Write Out",
-            "^W Where Is",
-            "^K Cut",
-            "^T Execute"
+            "^R Read File",
+            "^N New File"
         ]
 
         linha2 = [
             "^X Exit",
-            "^R Read File",
-            "^\\ Replace",
-            "^U Paste",
-            "^J Justify"
+            "^Z Undo",
+            "^Y Redo"
         ]
 
-        for i in range(5):
+        for i in range(3):
             bottom_frame.grid_columnconfigure(
                 i,
                 weight=1
@@ -163,39 +160,31 @@ class MiniNanoGUI:
                 padx=5
             )
 
-
         # ATALHOS
         self.text.bind(
-            "<KeyRelease>",
+            "<KeyPress>",
             self.on_edit
         )
 
-        self.text.bind(
-            "<Control-z>",
-            self.undo
-        )
+        root.bind("<Control-z>", self.undo)
+        root.bind("<Control-y>", self.redo)
 
-        self.text.bind(
-            "<Control-y>",
-            self.redo
-        )
-
-        self.text.bind(
+        root.bind(
             "<Control-s>",
             lambda e: self.save_file()
         )
 
-        self.text.bind(
+        root.bind(
             "<Control-o>",
             lambda e: self.open_file()
         )
 
-        self.text.bind(
+        root.bind(
             "<Control-n>",
             lambda e: self.new_file()
         )
 
-        self.text.bind(
+        root.bind(
             "<Control-q>",
             lambda e: self.root.quit()
         )
@@ -242,9 +231,11 @@ class MiniNanoGUI:
 
         self.editor.current_file = None
 
+        self.editor.undo_stack = [""]
+        self.editor.redo_stack.clear()
+
         self.update_status()
-
-
+        
     # ABRIR
     def open_file(self):
 
@@ -362,25 +353,14 @@ class MiniNanoGUI:
     # REDO
     def redo(self, event=None):
 
-        current = self.text.get(
-            "1.0",
-            "end-1c"
+        restored = self.editor.redo(
+            self.text.get("1.0", "end-1c")
         )
 
-        restored = self.editor.redo(current)
-
-        self.text.delete(
-            "1.0",
-            tk.END
-        )
-
-        self.text.insert(
-            "1.0",
-            restored
-        )
+        self.text.delete("1.0", tk.END)
+        self.text.insert("1.0", restored)
 
         return "break"
-
 
 if __name__ == "__main__":
 
