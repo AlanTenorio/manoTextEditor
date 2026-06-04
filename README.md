@@ -1,68 +1,175 @@
-# "Mano" o MiniNano
+# MiniNano
 
-MiniNano é um editor de texto desenvolvido em **Python** com **Tkinter**, inspirado no GNU Nano. O projeto foi criado para aplicar conceitos de **Estruturas de Dados**, utilizando listas duplamente encadeadas e pilhas em uma aplicação com interface gráfica.
+## Descrição
+
+O **MiniNano** é um editor de texto desenvolvido em **Python** utilizando a biblioteca **Tkinter** para construção da interface gráfica. O projeto foi inspirado no editor de texto GNU Nano e tem como principal objetivo demonstrar a aplicação prática de conceitos estudados na disciplina de **Estruturas de Dados**.
+
+A aplicação integra estruturas lineares, manipulação de arquivos, programação orientada a objetos e uma interface gráfica funcional, permitindo ao usuário criar, editar, abrir e salvar documentos de texto.
+
+---
 
 ## Funcionalidades
 
-* Interface inspirada no GNU Nano
+* Criação de novos documentos
+* Abertura de arquivos existentes
+* Salvamento de arquivos
 * Edição de texto em tempo real
-* Abrir e salvar arquivos
-* Criar novos documentos
-* Undo e Redo
+* Histórico de alterações
+* Operações de Undo (Desfazer)
+* Operações de Redo (Refazer)
 * Atalhos de teclado
-* Arquitetura modular
+* Interface inspirada no GNU Nano
+* Estrutura modular para facilitar manutenção e expansão
+
+---
 
 ## Estrutura do Projeto
 
 ```text
 MiniNano/
 │
-├── main.py         # Interface gráfica
-├── editor.py       # Lógica do editor
-├── structures.py   # Estruturas de dados
+├── main.py
+├── editor.py
+├── structures.py
 └── README.md
 ```
 
-## Estruturas de Dados
+### main.py
+
+Responsável pela interface gráfica da aplicação.
+
+Implementa:
+
+* Janela principal
+* Área de edição de texto
+* Barra de status
+* Atalhos de teclado
+* Integração entre a interface e a lógica do editor
+
+### editor.py
+
+Responsável pelas regras de negócio da aplicação.
+
+Implementa:
+
+* Controle do conteúdo textual
+* Gerenciamento do histórico de alterações
+* Operações de Undo e Redo
+* Controle do arquivo atualmente aberto
+
+### structures.py
+
+Responsável pelas estruturas de dados utilizadas pelo projeto.
+
+Implementa:
+
+* Nó (Node)
+* Lista Duplamente Encadeada (DoublyLinkedList)
+
+---
+
+## Estruturas de Dados Utilizadas
 
 ### Lista Duplamente Encadeada
 
-Utilizada para armazenar e manipular o conteúdo textual de forma dinâmica.
+A estrutura principal utilizada para armazenamento das linhas do texto é uma Lista Duplamente Encadeada.
+
+Cada nó possui:
+
+* Referência para o elemento anterior
+* Referência para o próximo elemento
+* Conteúdo textual armazenado
+
+Essa estrutura permite inserções e remoções dinâmicas sem a necessidade de realocação de memória para todos os elementos.
 
 ### Pilhas (Stacks)
 
-Responsáveis pelo histórico de ações, implementando as operações de **Undo** e **Redo**.
+O histórico de alterações é implementado através de duas pilhas:
 
-## Atalhos
+#### Undo Stack
 
-| Atalho   | Função        |
-| -------- | ------------- |
-| Ctrl + N | Novo arquivo  |
-| Ctrl + O | Abrir arquivo |
-| Ctrl + S | Salvar        |
-| Ctrl + Z | Desfazer      |
-| Ctrl + Y | Refazer       |
-| Ctrl + Q | Sair          |
+Armazena os estados anteriores do documento.
 
-## Execução
+Utilizada para desfazer alterações realizadas pelo usuário.
+
+#### Redo Stack
+
+Armazena estados removidos pela operação de Undo.
+
+Permite restaurar alterações previamente desfeitas.
+
+---
+
+## Atalhos de Teclado
+
+| Atalho   | Função             |
+| -------- | ------------------ |
+| Ctrl + N | Novo arquivo       |
+| Ctrl + O | Abrir arquivo      |
+| Ctrl + S | Salvar arquivo     |
+| Ctrl + Z | Desfazer           |
+| Ctrl + Y | Refazer            |
+| Ctrl + Q | Encerrar aplicação |
+
+---
+
+## Tecnologias Utilizadas
+
+* Python 3
+* Tkinter
+* Programação Orientada a Objetos (POO)
+* Estruturas de Dados
+* Manipulação de Arquivos
+
+---
+
+## Como Executar
+
+### 1. Clonar o repositório
 
 ```bash
 git clone https://github.com/seu-usuario/MiniNano.git
+```
+
+### 2. Acessar a pasta do projeto
+
+```bash
 cd MiniNano
+```
+
+### 3. Executar a aplicação
+
+```bash
 python main.py
 ```
 
-## Tecnologias
+---
 
-* Python
-* Tkinter
-* Programação Orientada a Objetos
-* Estruturas de Dados
+## Objetivos Acadêmicos
 
-## Objetivo
+Este projeto foi desenvolvido com os seguintes objetivos:
 
-Demonstrar a aplicação prática de conceitos de Estruturas de Dados em uma aplicação real, integrando interface gráfica, manipulação de arquivos e gerenciamento de histórico de alterações.
+* Aplicar conceitos de Estruturas de Dados estudados em sala de aula
+* Utilizar Listas Duplamente Encadeadas em uma aplicação prática
+* Implementar Pilhas para gerenciamento de histórico
+* Desenvolver uma interface gráfica utilizando Tkinter
+* Integrar Programação Orientada a Objetos e Estruturas de Dados em um projeto completo
+
+---
+
+## Possíveis Melhorias Futuras
+
+* Numeração de linhas
+* Sistema de busca de texto
+* Substituição automática de palavras
+* Temas personalizáveis
+* Suporte a múltiplas abas
+* Barra de menus
+* Salvamento automático
+* Destaque de sintaxe para código-fonte
+
+---
 
 ## Autor
 
-Projeto desenvolvido para a disciplina de **Estruturas de Dados**.
+Projeto desenvolvido para a disciplina de **Estruturas de Dados**, com o objetivo de demonstrar a aplicação prática de listas duplamente encadeadas e pilhas em um editor de texto funcional.
