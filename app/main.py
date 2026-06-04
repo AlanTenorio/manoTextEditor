@@ -25,14 +25,12 @@ class MiniNanoGUI:
         # BARRA SUPERIOR
         self.nano_header = tk.Label(
             root,
-            text="nano New File",
-            bg="#1d1f21",
-            fg="white",
-            font=("Consolas", 10, "bold"),
-            anchor="center",
-            pady=3
+            text="MiniNano",
+            bg="#1f2430",
+            fg="#ffffff",
+            font=("Consolas", 11, "bold"),
+            pady=5
         )
-
         self.nano_header.pack(fill="x")
 
 
@@ -40,30 +38,38 @@ class MiniNanoGUI:
         self.file_header = tk.Label(
             root,
             text="New File",
-            bg="#d8d8d0",
-            fg="#222222",
+            bg="#2f343f",
+            fg="#e5e9f0",
             font=("Consolas", 10),
-            pady=1
+            pady=3
         )
 
         self.file_header.pack(fill="x")
 
 
         # ÁREA PRINCIPAL
-        frame = tk.Frame(
-            root,
-            bg=BG
-        )
+        frame = tk.Frame(root, bg=BG)
 
         frame.pack(
             fill="both",
             expand=True
         )
 
-        scrollbar = tk.Scrollbar(frame)
+        self.line_numbers = tk.Text( # contador de linhas
+            frame,
+            width=4,
+            padx=5,
+            bg="#1f2430",
+            fg="#7f848e",
+            relief="flat",
+            borderwidth=0,
+            highlightthickness=0,
+            state="disabled",
+            font=("Consolas", 12)
+        )
 
-        scrollbar.pack(
-            side="right",
+        self.line_numbers.pack(
+            side="left",
             fill="y"
         )
 
@@ -81,17 +87,12 @@ class MiniNanoGUI:
         )
 
         self.text.pack(
+            side="left",
             fill="both",
             expand=True
         )
+        self.text.edit_modified(False)
 
-        self.text.config(
-            yscrollcommand=scrollbar.set
-        )
-
-        scrollbar.config(
-            command=self.text.yview
-        )
 
 
        # BARRA INFERIOR ESTILO NANO
@@ -161,6 +162,17 @@ class MiniNanoGUI:
             )
 
         # ATALHOS
+        def on_modified(self, event=None):
+            if self.text.edit_modified():
+
+                self.editor.save_state(
+                    self.text.get("1.0", "end-1c")
+                )
+
+                self.update_line_numbers()
+
+                self.text.edit_modified(False)
+
         self.text.bind(
             "<KeyPress>",
             self.on_edit
@@ -189,7 +201,35 @@ class MiniNanoGUI:
             lambda e: self.root.quit()
         )
 
+
         self.update_status()
+        self.update_line_numbers()
+
+    # Atualizar linhas
+    def update_line_numbers(self):
+
+        total_lines = int(
+            self.text.index("end-1c").split(".")[0]
+        )
+
+        numbers = "\n".join(
+            str(i)
+            for i in range(1, total_lines + 1)
+        )
+
+        self.line_numbers.config(state="normal")
+
+        self.line_numbers.delete(
+            "1.0",
+            tk.END
+        )
+
+        self.line_numbers.insert(
+            "1.0",
+            numbers
+        )
+
+        self.line_numbers.config(state="disabled")
 
 
     # ATUALIZA TÍTULO
@@ -210,8 +250,16 @@ class MiniNanoGUI:
         )
 
 
-    # EVENTO DE EDIÇÃO
+    # EVENTOS DE EDIÇÃO
     def on_edit(self, event=None):
+
+        self.root.after(
+            1,
+            self._after_edit
+        )
+
+
+    def _after_edit(self):
 
         content = self.text.get(
             "1.0",
@@ -220,7 +268,7 @@ class MiniNanoGUI:
 
         self.editor.save_state(content)
 
-
+        self.update_line_numbers()
     # NOVO ARQUIVO
     def new_file(self):
 
@@ -234,6 +282,7 @@ class MiniNanoGUI:
         self.editor.undo_stack = [""]
         self.editor.redo_stack.clear()
 
+        self.update_line_numbers()
         self.update_status()
         
     # ABRIR
@@ -269,6 +318,8 @@ class MiniNanoGUI:
                 "1.0",
                 content
             )
+
+            self.update_line_numbers()
 
             self.editor.load_text(content)
 
@@ -346,7 +397,7 @@ class MiniNanoGUI:
             "1.0",
             previous
         )
-
+        self.update_line_numbers()
         return "break"
 
 
@@ -360,6 +411,7 @@ class MiniNanoGUI:
         self.text.delete("1.0", tk.END)
         self.text.insert("1.0", restored)
 
+        self.update_line_numbers()
         return "break"
 
 if __name__ == "__main__":
