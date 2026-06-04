@@ -1,138 +1,132 @@
-from tkinter import filedialog
 from structures import DoublyLinkedList
 
 
 class Editor:
     """
-    Classe responsável pelo gerenciamento do conteúdo textual do editor.
+    Classe responsável pela lógica de manipulação do editor de texto.
 
-    Esta classe atua como a camada de lógica da aplicação,
-    armazenando o texto através de uma lista duplamente encadeada
-    e controlando o histórico de alterações por meio de pilhas
-    para operações de desfazer (Undo) e refazer (Redo).
+    Utiliza uma lista duplamente encadeada para armazenar o conteúdo
+    textual carregado e duas pilhas para gerenciar o histórico de
+    alterações (Undo e Redo).
+
+    A classe não possui interface gráfica; ela apenas controla os
+    dados e operações relacionadas ao texto.
     """
 
     def __init__(self):
         """
-        Inicializa o editor.
+        Inicializa os componentes internos do editor.
 
         Atributos:
             text_data (DoublyLinkedList):
-                Estrutura responsável pelo armazenamento do texto.
+                Estrutura de dados utilizada para armazenar as linhas
+                do texto carregado no editor.
 
             undo_stack (list):
-                Pilha que mantém o histórico de estados anteriores
-                para permitir operações de desfazer.
+                Pilha responsável por armazenar os estados anteriores
+                do texto, permitindo desfazer alterações.
 
             redo_stack (list):
-                Pilha utilizada para restaurar estados previamente
-                desfeitos através da operação de refazer.
+                Pilha utilizada para armazenar estados removidos pelo
+                comando Undo, permitindo restaurá-los posteriormente.
 
             current_file (str | None):
                 Caminho do arquivo atualmente aberto no editor.
+                Permanece como None quando nenhum arquivo está associado.
         """
 
         self.text_data = DoublyLinkedList()
-
-        self.undo_stack = []
+        self.undo_stack = [""]
         self.redo_stack = []
-
         self.current_file = None
 
     def load_text(self, content):
         """
-        Carrega um conteúdo textual para a estrutura de dados.
+        Carrega um conteúdo textual para o editor.
 
-        O conteúdo recebido é dividido em linhas e armazenado
-        na lista duplamente encadeada.
+        O texto recebido é dividido em linhas e armazenado na
+        lista duplamente encadeada. Além disso, o histórico de
+        alterações é reiniciado para refletir o novo conteúdo.
 
         Args:
             content (str):
-                Texto completo a ser carregado.
+                Conteúdo completo do arquivo aberto.
         """
 
         self.text_data.clear()
 
         for line in content.splitlines():
             self.text_data.append(line)
-
-    def get_text(self):
-        """
-        Reconstrói e retorna o texto armazenado.
-
-        Returns:
-            str:
-                Conteúdo completo do editor em formato textual.
-        """
-
-        return "\n".join(self.text_data.to_list())
+        self.undo_stack = [content]
+        self.redo_stack.clear()
 
     def save_state(self, content):
         """
-        Armazena um estado do texto na pilha de Undo.
+        Registra um novo estado do texto na pilha de Undo.
 
-        Sempre que uma modificação é realizada, o estado atual
-        é salvo para permitir sua recuperação posteriormente.
+        Sempre que o conteúdo é alterado, seu estado atual pode
+        ser armazenado para permitir operações futuras de desfazer.
 
-        Para evitar crescimento excessivo de memória, o histórico
-        é limitado a 100 estados.
+        O método evita armazenar estados repetidos consecutivos,
+        reduzindo o consumo de memória.
+
+        O histórico é limitado a 100 estados.
 
         Args:
             content (str):
                 Conteúdo atual do editor.
         """
 
-        self.undo_stack.append(content)
+        if not self.undo_stack or self.undo_stack[-1] != content:
 
-        if len(self.undo_stack) > 100:
-            self.undo_stack.pop(0)
-
-        # Ao registrar uma nova alteração,
-        # o histórico de Redo é invalidado.
-        self.redo_stack.clear()
+            self.undo_stack.append(content)
+            if len(self.undo_stack) > 100:
+                self.undo_stack.pop(0)
+            self.redo_stack.clear()
 
     def undo(self, current_content):
         """
-        Desfaz a última alteração realizada.
+        Desfaz a última alteração registrada.
 
-        O estado atual é movido para a pilha de Redo
-        e o estado anterior é recuperado da pilha de Undo.
+        Remove o estado mais recente da pilha de Undo,
+        armazenando-o na pilha de Redo para possibilitar
+        sua restauração posteriormente.
 
         Args:
             current_content (str):
-                Conteúdo atual do editor.
+                Conteúdo atual exibido no editor.
 
         Returns:
             str:
                 Estado anterior do texto.
         """
 
-        if not self.undo_stack:
+        if len(self.undo_stack) <= 1:
             return current_content
 
-        self.redo_stack.append(current_content)
-
-        return self.undo_stack.pop()
+        ultimo_estado = self.undo_stack.pop()
+        self.redo_stack.append(ultimo_estado)
+        return self.undo_stack[-1]
 
     def redo(self, current_content):
         """
         Refaz uma alteração previamente desfeita.
 
-        O estado atual é armazenado novamente na pilha de Undo
-        e o último estado salvo na pilha de Redo é restaurado.
+        Recupera o estado mais recente da pilha de Redo
+        e o reinsere na pilha de Undo.
 
         Args:
             current_content (str):
-                Conteúdo atual do editor.
+                Conteúdo atual exibido no editor.
 
         Returns:
             str:
-                Estado restaurado do texto.
+                Estado restaurado após a operação de Redo.
         """
 
         if not self.redo_stack:
             return current_content
+        estado_restaurado = self.redo_stack.pop()
+        self.undo_stack.append(estado_restaurado)
 
-        self.undo_stack.append(current_content)
-
-        return self.redo_stack.pop()
+        return estado_restaurado
