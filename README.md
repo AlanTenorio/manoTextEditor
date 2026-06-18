@@ -1,6 +1,6 @@
 # MiniNano - WordPad Style Editor
 
-Um editor de texto acadêmico desktop inspirado no clássico editor de terminal *GNU Nano*, mas com uma interface gráfica rica em recursos no estilo *WordPad*. O projeto foi desenvolvido como um estudo prático para disciplinas de **Estruturas de Dados** e **Interface Homem-Computador (IHC)**.
+Um editor de texto acadêmico desktop inspirado no clássico editor de terminal *GNU Nano*, mas com uma interface gráfica rica em recursos no estilo *WordPad*. O projeto foi desenvolvido como um estudo prático para disciplinas de **Metodos Computacionais**.
 
 ---
 
