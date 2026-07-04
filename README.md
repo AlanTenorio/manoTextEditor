@@ -4,6 +4,12 @@ Um editor de texto acadêmico desktop inspirado no clássico editor de terminal 
 
 ---
 
+## 👥Criadores
+### José ALan da Silva Tenório 
+### Pedro Henrique Pereira de Albuquerque 
+
+---
+
 ## 🚀 Funcionalidades Principais
 
 * **Paginação Estilo Word:** Divisão física e visual de páginas baseada nas dimensões proporcionais de uma folha A4, com limite dinâmico de 32 linhas por página.
