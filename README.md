@@ -32,6 +32,38 @@ O sistema de **Desfazer (Undo)** e **Refazer (Redo)** foi implementado utilizand
 O frontend utiliza uma hierarquia complexa de componentes (`Canvas` $\rightarrow$ `Frame` de Centralização $\rightarrow$ `Páginas Text`), onde os eventos de teclado e redimensionamento são monitorados via *Key Bindings* nativos.
 
 ---
+## 🛠️ Instalação e Dependências
+Para executar o MiniNano, é recomendado o uso de um ambiente virtual (.venv) para gerenciar as dependências do projeto de forma isolada. Siga as instruções abaixo de acordo com o seu sistema operacional.
+
+**🪟 Windows:**
+A biblioteca Tkinter já vem embutida na instalação padrão do Python no Windows. Sendo assim, basta criar o ambiente virtual e instalar o ReportLab.
+* Criar e ativar o ambiente virtual:
+```
+python -m venv .venv
+.\.venv\Scripts\activate
+```
+* Instalar a biblioteca auxiliar:
+```
+pip install reportlab
+```
+**🐧 Linux (Debian/Ubuntu):**
+No Linux, o Tkinter precisa ser instalado separadamente através do gerenciador de pacotes do sistema antes de configurar o restante do ambiente.
+* **Instalar o Tkinter no sistema:
+```
+sudo apt-get update
+sudo apt-get install python3-tk
+```
+* Criar e ativar o ambiente virtual:
+```
+python3 -m venv .venv
+source .venv/bin/activate
+```
+* Instalar a biblioteca auxiliar:
+```
+pip install reportlab
+```
+
+---
 
 ## 📁 Estrutura do Projeto
 
