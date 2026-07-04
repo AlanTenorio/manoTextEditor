@@ -114,7 +114,7 @@ class MiniNanoGUI:
         self.bottom_bar = tk.Frame(root, bg="#d8d8d0", bd=1, relief="solid", height=22)
         self.bottom_bar.pack(fill="x", side="bottom")
         
-        self.lbl_shortcuts = tk.Label(self.bottom_bar, text="^O Write Out | ^R Read File | ^N New File | Ctrl +/=: Zoom+ | Ctrl -: Zoom-", bg="#d8d8d0", fg="#222222", font=("Consolas", 9), padx=10)
+        self.lbl_shortcuts = tk.Label(self.bottom_bar, text="^Z Redo | ^S Save File | ^N New File | Ctrl +/=: Zoom+ | Ctrl -: Zoom-", bg="#d8d8d0", fg="#222222", font=("Consolas", 9), padx=10)
         self.lbl_shortcuts.pack(side="left")
         
         self.lbl_zoom = tk.Label(self.bottom_bar, text="100%", bg="#d8d8d0", fg="#222222", font=("Consolas", 9, "bold"), padx=15)
@@ -169,7 +169,8 @@ class MiniNanoGUI:
             self.workspace_canvas.configure(scrollregion=self.workspace_canvas.bbox("all"))
 
     def criar_nova_pagina_visual(self):
-        """Gera uma nova folha de papel física e independente na interface do usuário (estilo paginação do Word)."""
+        """Gera uma nova folha de papel física e independente na interface do usuário 
+."""
         C = self.cores_escuras if self.tema_escuro else self.cores_claras
         
         largura_atual = int(self.largura_base_pagina * self.fator_zoom)
@@ -395,8 +396,8 @@ class MiniNanoGUI:
             conteudo_linha = text_widget.get(f"{linha_num}.0", f"{linha_num}.end")
             ultimo_espaco = conteudo_linha.rfind(" ")
             if ultimo_espaco != -1 and ultimo_espaco > (self.LARGURA_MAXIMA_CARACTERES - 15):
+                text_widget.delete(f"{linha_num}.{ultimo_espaco}")
                 text_widget.insert(f"{linha_num}.{ultimo_espaco}", "\n")
-                text_widget.delete(f"{linha_num}.{ultimo_espaco + 1}")
             else:
                 text_widget.insert("insert", "\n")
 
